@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Сергей Кузаков](https://up.htmlacademy.ru/javascript/13/user/482063).
-* Наставник: [Анна Тюрина](https://htmlacademy.ru/profile/anntv/id549147).
+* Наставник: [Анна Тюрина] (https://htmlacademy.ru/profile/anntv/id549147).
 
 ---
 
