@@ -2,9 +2,9 @@
 //Стартовые
 var COUNT_OBJECTS = 8;
 var PRICE = {max: 1000000, min: 1000};
-var GUEST =  {min: 1, min: 10};
+var GUEST =  {min: 1, max: 10};
 var ROOMS = {min: 1, max: 5};
-var COORD = {X: {min: 300, max: 900}, Y: {min: 150, max: 500};
+var COORD = {X: {min: 300, max: 900}, Y: {min: 150, max: 500}};
 
 var typeOfRooms = ['palace', 'flat', 'house', 'bungalo'];
 var time = ['12:00', '13:00', '14:00'];
@@ -12,39 +12,57 @@ var feature = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condition
 var typeAdress = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
+//ф-ция набора текста объявления
+function getTicket() {
+	var tickets = [];
+	var avatarForTicket = shufArray(getAvatars());
+	var title = shufArray(typeAdress);
+	for (var i = 0; i <	COUNT_OBJECTS; i++) {
+		var locationX = getRandom(COORD.X.max, COORD.X.min);
+		var locationY = getRandom(COORD.Y.max, COORD.Y.min);
+	ticets.push({
+		'author': {'avatar':avatarForTicket[i]},
+		'offer': {
+			'title': title[i],
+			'adress': {locationX, locationY},
+			'price': getRandom(PRICE.max, PRICE.min),
+			'type': getRndElement(typeOfRooms),
+			'rooms': getRandom(ROOMS.max, ROOMS.min),
+			'guests': getRandom(GUEST.max, GUEST.min),
+			'checkin': getRndElement(time),
+			'checkout': getRndElement(time),
+			'feature': getRndElement(feature),
+			'description': '',
+			'photos': []
+		},
+		'location': {'X': locationX, 'Y': locationY}
+	});
+	}
+	return ticets;
+}
 
 //функция создания массива аватарок
-function getAuthorObjects() {
-	var imgAvatar = [];
+function getAvatars() {
+	var imgAvatars = [];
 	var avatar;
 	for (var i = 0; i <= COUNT_OBJECTS - 1; i++) {
 		if (i < 10) {
 			avatar = 'img/avatars/users' + '0' + i + '.png';
 		} 
 		else {
-			avatar: 'img/avatars/users' + i + '.png';
+			avatar = 'img/avatars/users' + i + '.png';
 		}; 
-		imgAvatar.push(avatar);
+		imgAvatars.push(avatar);
 	}
-	return imgAvatar;
+	return imgAvatars;
 }
 
 //функция случайного числа
 function getRandom(max, min) {
-var randomNumb = Math.floor(Math.random() * (max - min + 1)) + min;
-		return randomNumb;
+	var randomNumb = Math.floor(Math.random() * (max - min + 1)) + min;
+	return randomNumb;
 }
-/*
-//функция ???????????
-function getArrayObjects() {
-	var author = {};
-	var avatar;
-	for (var i = 0; i < typeAdress.length; i++) {
-		author['avatar'+[i+1]] = typeAdress[i];
-	}
-	return;
-}
-*/
+
 //функция создания ьассива n-длины
 function getLengthArray(arrey) {
 	var someArr = array.slice();
@@ -71,35 +89,3 @@ function shufArray(array) {
 	}
 	return array;
 }
-
-
-/*
------------------------------------------
-	
-	object[i]:{
-		author:{
-			
-		},
-		
-		offer:{
-			title: ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'],
-			address: {location.x, location.y},
-			price: Math.floor(Math.random() * 1000000) + 1000,
-			type: ['palace', 'flat', 'house', 'bungalo'],
-			rooms: Math.floor(Math.random() * 5) + 1,
-			guests: Math.floor(Math.random() * 10),
-			checkin: ['12:00', '13:00', '14:00'],
-			checkout: ['12:00', '13:00', '14:00'],
-			features: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-			description: '',
-			photos: ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"]
-		},
-		
-		location: {
-			x: Math.floor(Math.random() * 900) + 300,
-			y: Math.floor(Math.random() * 500) + 150
-		}
-	});
-}
-
-*/
