@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 // Стартовые
 
@@ -143,7 +143,7 @@ function generateAdsObjects() {
   return ads;
 }
 
-
+// расположение на карте
 function generateAPin(arrayElement) {
   var pin = pinTemplate.cloneNode(true);
   pin.style.left = arrayElement.location.x - PIN_WIDTH / 4 + 'px';
