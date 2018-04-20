@@ -3,14 +3,14 @@
 var COUNT_OBJECTS = 8;
 
 var PRICE = {
-		max: 1000000,
-		min: 1000
-		};
+	max: 1000000,
+	min: 1000
+	};
 		
 var GUEST =  {
-		min: 1,
-		max: 10
-		};
+	min: 1,
+	max: 10
+	};
 		
 var TITLES = [
 	'Большая уютная квартира',
@@ -31,9 +31,9 @@ var TITLES = [
 	];
 
 var VAR_ROOMS = {
-		min: 1,
-		max: 5
-		};	
+	min: 1,
+	max: 5
+	};	
 
 var CHECKOUT_TIMES = [
 	'12:00',
@@ -50,8 +50,8 @@ var FEATURES = [
 	'conditioner'
 	]; 
 
-var PIN_HEIGHT = 40;		//75
-var PIN_WIDTH = 44;			//56
+var PIN_HEIGHT = 40;
+var PIN_WIDTH = 44;
 
 var COORD = {
 	X: {
@@ -69,6 +69,7 @@ var PHOTOS = [
 	'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
 	'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 	];
+
 //карту и блок объявления из неактивного состояния в активное
 var userUp = document.querySelector('.map');
 userUp.classList.remove('map--faded');
@@ -91,7 +92,7 @@ var pinTemplate = document.querySelector('template').content.querySelector('butt
 var pinsBlock = document.querySelector('.map__pins'); 
 var filtersBlock = document.querySelector('.map__filters-container'); 
  
-
+//создание элемента с классом
 function createElement (elementNode, elementClass) {
 	var elementName = document.createElement(elementNode); 
 	elementName.className = elementClass;
@@ -113,7 +114,7 @@ var ads = [];
 function generateAdsObjects() {
 	for (var i = 0; i < COUNT_OBJECTS; i++) {
 		var avatarForTicket = shuffleArray(getAvatars());
-		var TITLE = shuffleArray(TITLES);
+		var TITLES_HEADS = shuffleArray(TITLES);
 		var locationX = getRandomInteger(COORD.X.min, COORD.X.max);
 		var locationY = getRandomInteger(COORD.Y.min, COORD.Y.max);
 		ads[i] = {
@@ -121,7 +122,7 @@ function generateAdsObjects() {
 				'avatar': avatarForTicket[i]
 				},
 			'offer': {
-				'title': TITLE[i],
+				'title': TITLES_HEADS[i],
 				'address': {locationX, locationY},
 				'price': getRandomInteger(PRICE.min, PRICE.max),
 				'type': getRndElement(TYPES),
@@ -131,7 +132,7 @@ function generateAdsObjects() {
 				'checkout': getRndElement(CHECKOUT_TIMES),
 				'features': adFeatures,
 				'description': '',
-				'photos': getRndElement(PHOTOS)
+				'photos': []
 			},
 			'location': {
 				'x': locationX,
@@ -161,7 +162,7 @@ function renderPins() {
 }; 
 
 //ф-ция набора объявления
-function createAnAd(arrayElement) {
+function createAd(arrayElement) {
 	var ad = adTemplate.cloneNode(true);
 	ad.querySelector('h3').textContent = arrayElement.offer.title;
 	ad.querySelector('.popup__text').textContent = arrayElement.offer.address;
@@ -172,6 +173,8 @@ function createAnAd(arrayElement) {
 			ad.querySelector('h4').textContent = 'Бунгало';
 		} else if (arrayElement.offer.type === 'house') {
 			ad.querySelector('h4').textContent = 'Дом';
+		} else if (arrayElement.offer.type === 'palace') {
+			ad.querySelector('h4').textContent = 'Дворец';
 	}
 		ad.querySelector('h4 + p').textContent = arrayElement.offer.rooms + ' для ' + arrayElement.offer.guests + ' гостей';
 	ad.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + arrayElement.offer.checkin + ', выезд до ' + arrayElement.offer.checkout;
@@ -191,7 +194,7 @@ function createAnAd(arrayElement) {
 function renderAds() {
 	var adFragment = document.createDocumentFragment();
 	for (var i = 0; i < ads.length; i++) {
-		adFragment.appendChild(createAnAd(ads[i]));
+		adFragment.appendChild(createAd(ads[i]));
 		}
 		adsBlock.appendChild(adFragment); 
 }; 
@@ -200,7 +203,6 @@ function renderAds() {
 var imgAvatars = [];
 
 function getAvatars() {
-	
 	var avatar;
 	for (var i = 0; i <= COUNT_OBJECTS - 1; i++) {
 		if (i < 10) {
@@ -237,9 +239,7 @@ function shuffleArray(array) {
 }
 
 
-
-
 clearNode(pinsBlock); 
 generateAdsObjects(); 
 renderPins(); 
-renderAds(); 
+renderAds();
