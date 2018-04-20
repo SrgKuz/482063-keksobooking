@@ -123,16 +123,16 @@ function generateAdsObjects() {
 				},
 			'offer': {
 				'title': TITLES_HEADS[i],
-				'address': {locationX, locationY},
+				'address': locationX + ', ' + locationY,
 				'price': getRandomInteger(PRICE.min, PRICE.max),
 				'type': getRndElement(TYPES),
 				'rooms': getRandomInteger(VAR_ROOMS.min, VAR_ROOMS.max),
 				'guests': getRandomInteger(GUEST.min, GUEST.max),
-				'checkin': getRndElement(CHECKOUT_TIMES),
-				'checkout': getRndElement(CHECKOUT_TIMES),
+				'checkin': CHECKOUT_TIMES[getRandomInteger(0, CHECKOUT_TIMES.length - 1)],
+				'checkout': CHECKOUT_TIMES[getRandomInteger(0, CHECKOUT_TIMES.length - 1)],
 				'features': adFeatures,
 				'description': '',
-				'photos': []
+				'photos': PHOTOS[getRandomInteger(0, PHOTOS.length - 1)]
 			},
 			'location': {
 				'x': locationX,
@@ -187,6 +187,7 @@ function createAd(arrayElement) {
 	}
 	ad.querySelector('.popup__features + p').textContent = arrayElement.offer.description;
 	ad.querySelector('.popup__avatar').setAttribute('src', arrayElement.author.avatar);
+	ad.querySelector('.popup__photo').setAttribute('src', arrayElement.offer.photos);
 	return ad;
 }; 
  
