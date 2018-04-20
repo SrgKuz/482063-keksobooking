@@ -207,7 +207,7 @@ function getAvatars() {
   for (var i = 0; i <= COUNT_OBJECTS - 1; i++) {
     if (i < 10) {
       avatar = 'img/avatars/user0' + (i + 1) + '.png';
-	  }
+    }
     else {
       avatar = 'img/avatars/users' + i + '.png';
     }
