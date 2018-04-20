@@ -35,7 +35,7 @@ var TYPES = [
 var VAR_ROOMS = {
   min: 1,
   max: 5
-};	
+};
 
 var CHECKOUT_TIMES = [
   '12:00',
@@ -65,11 +65,11 @@ var COORD = {
     max: 500
   }
 };
-	
+
 var PHOTOS = [
-	'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-	'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-	'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
 // карту и блок объявления из неактивного состояния в активное
@@ -80,8 +80,8 @@ userSup.classList.remove('ad-form--disabled');
 
 // функция случайного числа
 function getRandomInteger(min, max) {
-	var randomNumb = Math.floor(Math.random() * (max - min + 1) + min);
-	return randomNumb;
+  var randomNumb = Math.floor(Math.random() * (max - min + 1) + min);
+  return randomNumb;
 }
 
 
@@ -93,22 +93,21 @@ var adTemplate = document.querySelector('template').content.querySelector('artic
 var pinTemplate = document.querySelector('template').content.querySelector('button.map__pin');
 var pinsBlock = document.querySelector('.map__pins');
 var filtersBlock = document.querySelector('.map__filters-container');
- 
+
 // создание элемента с классом
-function createElement (elementNode, elementClass) {
-	var elementName = document.createElement(elementNode);
-	elementName.className = elementClass;
-	return elementName;
-};
-	
+function createElement(elementNode, elementClass) {
+  var elementName = document.createElement(elementNode);
+  elementName.className = elementClass;
+  return elementName;
+}
 
 var adsBlock = createElement('div', 'map__ads');
 map.insertBefore(adsBlock, filtersBlock);
 
 
 function clearNode(node) {
-	node.innerHTML = '';
-};
+  node.innerHTML = '';
+}
 
 var ads = [];
 
