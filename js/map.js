@@ -5,65 +5,65 @@
 var COUNT_OBJECTS = 8;
 
 var PRICE = {
-	max: 1000000,
-	min: 1000
+  max: 1000000,
+  min: 1000
 };
-		
-var GUEST =  {
-	min: 1,
-	max: 10
+
+var GUEST = {
+  min: 1,
+  max: 10
 };
-		
+
 var TITLES = [
-	'Большая уютная квартира',
-	'Маленькая неуютная квартира',
-	'Огромный прекрасный дворец',
-	'Маленький ужасный дворец',
-	'Красивый гостевой домик',
-	'Некрасивый негостеприимный домик',
-	'Уютное бунгало далеко от моря',
-	'Неуютное бунгало по колено в воде'
+  'Большая уютная квартира',
+  'Маленькая неуютная квартира',
+  'Огромный прекрасный дворец',
+  'Маленький ужасный дворец',
+  'Красивый гостевой домик',
+  'Некрасивый негостеприимный домик',
+  'Уютное бунгало далеко от моря',
+  'Неуютное бунгало по колено в воде'
 ];
 
-	var TYPES = [
-	'palace',
-	'flat',
-	'house',
-	'bungalo'
+var TYPES = [
+  'palace',
+  'flat',
+  'house',
+  'bungalo'
 ];
 
 var VAR_ROOMS = {
-	min: 1,
-	max: 5
+  min: 1,
+  max: 5
 };	
 
 var CHECKOUT_TIMES = [
-	'12:00',
-	'13:00',
-	'14:00'
+  '12:00',
+  '13:00',
+  '14:00'
 ];
 
 var FEATURES = [
-	'wifi',
-	'dishwasher',
-	'parking',
-	'washer',
-	'elevator',
-	'conditioner'
-]; 
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
+];
 
 var PIN_HEIGHT = 40;
 var PIN_WIDTH = 44;
 
 var COORD = {
-	X: {
-		min: 300,
-		max: 900
-	},
-	Y: {
-		min: 150,
-		max: 500
-	}
+  X: {
+    min: 300,
+    max: 900
+  },
+  Y: {
+    min: 150,
+    max: 500
+  }
 };
 	
 var PHOTOS = [
