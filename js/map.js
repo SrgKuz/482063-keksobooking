@@ -207,39 +207,39 @@ function getAvatars() {
   for (var i = 0; i <= COUNT_OBJECTS - 1; i++) {
     if (i < 10) {
       avatar = 'img/avatars/user0' + (i + 1) + '.png';
-    } 
-	else {
-		avatar = 'img/avatars/users' + i + '.png';
-	}; 
-	imgAvatars[i] = avatar;
-	}
-	return imgAvatars;
+	  }
+    else {
+      avatar = 'img/avatars/users' + i + '.png';
+    }
+    imgAvatars[i] = avatar;
+  }
+  return imgAvatars;
 }
 
 
 // функция случайного элемента массива
 function getRndElement(array) {
-	for (var i = 0;i < array; i++) {
-	var indexRND = Math.floor(Math.random() * array.length);
-	}
-	var elementRND = array[indexRND];
-	return elementRND;
+  for (var i = 0; i < array; i++) {
+    var indexRND = Math.floor(Math.random() * array.length);
+  }
+  var elementRND = array[indexRND];
+  return elementRND;
 }
 
 
 // ф-ция группировки массива в случ. порядке
 function shuffleArray(array) {
-	for (var i = 0; i < array.length - 1; i++) {
-	var indexRND = Math.floor(Math.random() * (i + 1));
-	var nowValue = array[i];
-	array[i] = array[indexRND];
-	array[indexRND] = nowValue;
-	}
-	return array;
+  for (var i = 0; i < array.length - 1; i++) {
+    var indexRND = Math.floor(Math.random() * (i + 1));
+    var nowValue = array[i];
+    array[i] = array[indexRND];
+    array[indexRND] = nowValue;
+  }
+  return array;
 }
 
 
-clearNode(pinsBlock); 
-generateAdsObjects(); 
-renderPins(); 
+clearNode(pinsBlock);
+generateAdsObjects();
+renderPins();
 renderAds();
