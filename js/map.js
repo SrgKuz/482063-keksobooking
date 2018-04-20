@@ -1,4 +1,5 @@
-'use strict'; 
+'use strict';
+
 //Стартовые
 var COUNT_OBJECTS = 8;
 
