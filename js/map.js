@@ -79,11 +79,36 @@ var userSup = document.querySelector('.ad-form');
 userSup.classList.remove('ad-form--disabled');
 
 // функция случайного числа
-function getRandomInteger(min, max) {
-  var randomNumb = Math.floor(Math.random() * (max - min + 1) + min);
-  return randomNumb;
+var getRandomInteger = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+// функция создания массива аватарок
+
+var getAvatars = function() {
+  var imgAvatars = [];
+  var avatar;
+  for (var i = 0; i <= TITLES.length - 1; i++) {
+    if (i < 10) {
+      avatar = 'img/avatars/user0' + (i + 1) + '.png';
+    } else {
+      avatar = 'img/avatars/users' + i + '.png';
+    }
+    imgAvatars[i] = avatar;
+  }
+  return imgAvatars;
+}
+
+// ф-ция группировки массива в случ. порядке
+var shuffleArray = function(array) {
+  for (var i = 0; i < array.length - 1; i++) {
+    var indexRND = Math.floor(Math.random() * (i + 1));
+    var nowValue = array[i];
+    array[i] = array[indexRND];
+    array[indexRND] = nowValue;
+  }
+  return array;
+}
 
 var randomFeatures = shuffleArray(FEATURES);
 var adFeatures = randomFeatures.slice(0, getRandomInteger(1, randomFeatures.length));
@@ -95,7 +120,7 @@ var pinsBlock = document.querySelector('.map__pins');
 var filtersBlock = document.querySelector('.map__filters-container');
 
 // создание элемента с классом
-function createElement(elementNode, elementClass) {
+var createElement = function(elementNode, elementClass) {
   var elementName = document.createElement(elementNode);
   elementName.className = elementClass;
   return elementName;
@@ -104,28 +129,23 @@ function createElement(elementNode, elementClass) {
 var adsBlock = createElement('div', 'map__ads');
 map.insertBefore(adsBlock, filtersBlock);
 
-
-function clearNode(node) {
+var clearNode = function(node) {
   node.innerHTML = '';
 }
 
-var ads = [];
-
-function generateAdsObjects() {
-  for (var i = 0; i < COUNT_OBJECTS; i++) {
-    var avatarForTicket = shuffleArray(getAvatars());
-    var TITLES_HEADS = shuffleArray(TITLES);
-    var locationX = getRandomInteger(COORD.X.min, COORD.X.max);
-    var locationY = getRandomInteger(COORD.Y.min, COORD.Y.max);
-    ads[i] = {
+var generateAdsObjects = function(adsCount) {
+  var avatarForTicket = shuffleArray(getAvatars());
+  var newAds = [];
+  for (var i = 0; i < adsCount; i++) {
+    newAds.push({
       'author': {
         'avatar': avatarForTicket[i]
       },
       'offer': {
-        'title': TITLES_HEADS[i],
-        'address': locationX + ', ' + locationY,
+        'title': TITLES[getRandomInteger(0, TITLES.length - 1)],
+        'address': getRandomInteger(COORD.X.min, COORD.X.max) + ', ' + getRandomInteger(COORD.Y.min, COORD.Y.max),
         'price': getRandomInteger(PRICE.min, PRICE.max),
-        'type': getRndElement(TYPES),
+        'type': TYPES[getRandomInteger(0, TYPES.length - 1)],
         'rooms': getRandomInteger(VAR_ROOMS.min, VAR_ROOMS.max),
         'guests': getRandomInteger(GUEST.min, GUEST.max),
         'checkin': CHECKOUT_TIMES[getRandomInteger(0, CHECKOUT_TIMES.length - 1)],
@@ -135,25 +155,26 @@ function generateAdsObjects() {
         'photos': PHOTOS[getRandomInteger(0, PHOTOS.length - 1)]
       },
       'location': {
-        'x': locationX,
-        'y': locationY
+        'x': getRandomInteger(COORD.X.min, COORD.X.max),
+        'y': getRandomInteger(COORD.Y.min, COORD.Y.max)
       }
-    };
+    });
   }
-  return ads;
+  return newAds;
 }
 
+var ads = generateAdsObjects(TITLES.length);
+
 // расположение на карте
-function generateAPin(arrayElement) {
+var generateAPin = function(arrayElement) {
   var pin = pinTemplate.cloneNode(true);
-  pin.style.left = arrayElement.location.x - PIN_WIDTH / 4 + 'px';
+  pin.style.left = arrayElement.location.x - PIN_WIDTH / 2 + 'px';
   pin.style.top = arrayElement.location.y - PIN_HEIGHT + 'px';
   pin.querySelector('img').src = arrayElement.author.avatar;
   return pin;
 }
 
-
-function renderPins() {
+var renderPins = function() {
   var pinFragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
     pinFragment.appendChild(generateAPin(ads[i]));
@@ -162,19 +183,24 @@ function renderPins() {
 }
 
 // ф-ция набора объявления
-function createAd(arrayElement) {
+var createAd = function(arrayElement) {
   var ad = adTemplate.cloneNode(true);
   ad.querySelector('h3').textContent = arrayElement.offer.title;
   ad.querySelector('.popup__text').textContent = arrayElement.offer.address;
   ad.querySelector('.popup__text--price').textContent = arrayElement.offer.price + ' \u20bd/ночь';
-  if (arrayElement.offer.type === 'flat') {
-    ad.querySelector('h4').textContent = 'Квартира';
-  } else if (arrayElement.offer.type === 'bungalo') {
-    ad.querySelector('h4').textContent = 'Бунгало';
-  } else if (arrayElement.offer.type === 'house') {
-    ad.querySelector('h4').textContent = 'Дом';
-  } else if (arrayElement.offer.type === 'palace') {
-    ad.querySelector('h4').textContent = 'Дворец';
+  switch (arrayElement.offer.type) {
+    case 'flat':
+	  ad.querySelector('h4').textContent = 'Квартира'
+	  break;
+    case 'bungalo':
+      ad.querySelector('h4').textContent = 'Бунгало'
+	  break;
+    case 'house':
+      ad.querySelector('h4').textContent = 'Дом'
+	  break;
+    case 'palace':
+      ad.querySelector('h4').textContent = 'Дворец'
+	break;
   }
   ad.querySelector('h4 + p').textContent = arrayElement.offer.rooms + ' для ' + arrayElement.offer.guests + ' гостей';
   ad.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + arrayElement.offer.checkin + ', выезд до ' + arrayElement.offer.checkout;
@@ -191,7 +217,7 @@ function createAd(arrayElement) {
   return ad;
 }
 
-function renderAds() {
+var renderAds = function() {
   var adFragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
     adFragment.appendChild(createAd(ads[i]));
@@ -199,46 +225,6 @@ function renderAds() {
   adsBlock.appendChild(adFragment);
 }
 
-// функция создания массива аватарок
-var imgAvatars = [];
-
-function getAvatars() {
-  var avatar;
-  for (var i = 0; i <= COUNT_OBJECTS - 1; i++) {
-    if (i < 10) {
-      avatar = 'img/avatars/user0' + (i + 1) + '.png';
-    } else {
-      avatar = 'img/avatars/users' + i + '.png';
-    }
-    imgAvatars[i] = avatar;
-  }
-  return imgAvatars;
-}
-
-
-// функция случайного элемента массива
-function getRndElement(array) {
-  for (var i = 0; i < array; i++) {
-    var indexRND = Math.floor(Math.random() * array.length);
-  }
-  var elementRND = array[indexRND];
-  return elementRND;
-}
-
-
-// ф-ция группировки массива в случ. порядке
-function shuffleArray(array) {
-  for (var i = 0; i < array.length - 1; i++) {
-    var indexRND = Math.floor(Math.random() * (i + 1));
-    var nowValue = array[i];
-    array[i] = array[indexRND];
-    array[indexRND] = nowValue;
-  }
-  return array;
-}
-
-
-clearNode(pinsBlock);
-generateAdsObjects();
-renderPins();
-renderAds();
+ clearNode(pinsBlock);
+ renderPins();
+ renderAds();
