@@ -1,9 +1,6 @@
 ﻿'use strict';
 
 // Стартовые
-
-var COUNT_OBJECTS = 8;
-
 var PRICE = {
   max: 1000000,
   min: 1000
@@ -79,13 +76,12 @@ var userSup = document.querySelector('.ad-form');
 userSup.classList.remove('ad-form--disabled');
 
 // функция случайного числа
-var getRandomInteger = function(min, max) {
+var getRandomInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
-}
+};
 
 // функция создания массива аватарок
-
-var getAvatars = function() {
+var getAvatars = function () {
   var imgAvatars = [];
   var avatar;
   for (var i = 0; i <= TITLES.length - 1; i++) {
@@ -97,10 +93,10 @@ var getAvatars = function() {
     imgAvatars[i] = avatar;
   }
   return imgAvatars;
-}
+};
 
 // ф-ция группировки массива в случ. порядке
-var shuffleArray = function(array) {
+var shuffleArray = function (array) {
   for (var i = 0; i < array.length - 1; i++) {
     var indexRND = Math.floor(Math.random() * (i + 1));
     var nowValue = array[i];
@@ -108,7 +104,7 @@ var shuffleArray = function(array) {
     array[indexRND] = nowValue;
   }
   return array;
-}
+};
 
 var randomFeatures = shuffleArray(FEATURES);
 var adFeatures = randomFeatures.slice(0, getRandomInteger(1, randomFeatures.length));
@@ -120,20 +116,20 @@ var pinsBlock = document.querySelector('.map__pins');
 var filtersBlock = document.querySelector('.map__filters-container');
 
 // создание элемента с классом
-var createElement = function(elementNode, elementClass) {
+var createElement = function (elementNode, elementClass) {
   var elementName = document.createElement(elementNode);
   elementName.className = elementClass;
   return elementName;
-}
+};
 
 var adsBlock = createElement('div', 'map__ads');
 map.insertBefore(adsBlock, filtersBlock);
 
-var clearNode = function(node) {
+var clearNode = function (node) {
   node.innerHTML = '';
-}
+};
 
-var generateAdsObjects = function(adsCount) {
+var generateAdsObjects = function (adsCount) {
   var avatarForTicket = shuffleArray(getAvatars());
   var newAds = [];
   for (var i = 0; i < adsCount; i++) {
@@ -161,46 +157,46 @@ var generateAdsObjects = function(adsCount) {
     });
   }
   return newAds;
-}
+};
 
 var ads = generateAdsObjects(TITLES.length);
 
 // расположение на карте
-var generateAPin = function(arrayElement) {
+var generateAPin = function (arrayElement) {
   var pin = pinTemplate.cloneNode(true);
   pin.style.left = arrayElement.location.x - PIN_WIDTH / 2 + 'px';
   pin.style.top = arrayElement.location.y - PIN_HEIGHT + 'px';
   pin.querySelector('img').src = arrayElement.author.avatar;
   return pin;
-}
+};
 
-var renderPins = function() {
+var renderPins = function () {
   var pinFragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
     pinFragment.appendChild(generateAPin(ads[i]));
   }
   pinsBlock.appendChild(pinFragment);
-}
+};
 
 // ф-ция набора объявления
-var createAd = function(arrayElement) {
+var createAd = function (arrayElement) {
   var ad = adTemplate.cloneNode(true);
   ad.querySelector('h3').textContent = arrayElement.offer.title;
   ad.querySelector('.popup__text').textContent = arrayElement.offer.address;
   ad.querySelector('.popup__text--price').textContent = arrayElement.offer.price + ' \u20bd/ночь';
   switch (arrayElement.offer.type) {
     case 'flat':
-	  ad.querySelector('h4').textContent = 'Квартира'
-	  break;
+      ad.querySelector('h4').textContent = 'Квартира';
+      break;
     case 'bungalo':
-      ad.querySelector('h4').textContent = 'Бунгало'
-	  break;
+      ad.querySelector('h4').textContent = 'Бунгало';
+      break;
     case 'house':
-      ad.querySelector('h4').textContent = 'Дом'
-	  break;
+      ad.querySelector('h4').textContent = 'Дом';
+      break;
     case 'palace':
-      ad.querySelector('h4').textContent = 'Дворец'
-	break;
+      ad.querySelector('h4').textContent = 'Дворец';
+      break;
   }
   ad.querySelector('h4 + p').textContent = arrayElement.offer.rooms + ' для ' + arrayElement.offer.guests + ' гостей';
   ad.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + arrayElement.offer.checkin + ', выезд до ' + arrayElement.offer.checkout;
@@ -215,16 +211,16 @@ var createAd = function(arrayElement) {
   ad.querySelector('.popup__avatar').setAttribute('src', arrayElement.author.avatar);
   ad.querySelector('.popup__photo').setAttribute('src', arrayElement.offer.photos);
   return ad;
-}
+};
 
-var renderAds = function() {
+var renderAds = function () {
   var adFragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
     adFragment.appendChild(createAd(ads[i]));
   }
   adsBlock.appendChild(adFragment);
-}
+};
 
- clearNode(pinsBlock);
- renderPins();
- renderAds();
+clearNode(pinsBlock);
+renderPins();
+renderAds();
