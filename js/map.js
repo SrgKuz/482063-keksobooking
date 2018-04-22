@@ -29,6 +29,13 @@ var TYPES = [
   'bungalo'
 ];
 
+var TYPES_RUS = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'
+};
+
 var VAR_ROOMS = {
   min: 1,
   max: 5
@@ -85,12 +92,8 @@ var getAvatars = function () {
   var imgAvatars = [];
   var avatar;
   for (var i = 0; i <= TITLES.length - 1; i++) {
-    if (i < 10) {
-      avatar = 'img/avatars/user0' + (i + 1) + '.png';
-    } else {
-      avatar = 'img/avatars/users' + i + '.png';
-    }
-    imgAvatars[i] = avatar;
+    avatar = (i < 10) ? 'img/avatars/user0' + (i + 1) + '.png' : 'img/avatars/users' + i + '.png';
+    imgAvatars.push(avatar);
   }
   return imgAvatars;
 };
@@ -184,27 +187,15 @@ var createAd = function (arrayElement) {
   ad.querySelector('h3').textContent = arrayElement.offer.title;
   ad.querySelector('.popup__text').textContent = arrayElement.offer.address;
   ad.querySelector('.popup__text--price').textContent = arrayElement.offer.price + ' \u20bd/ночь';
-  switch (arrayElement.offer.type) {
-    case 'flat':
-      ad.querySelector('h4').textContent = 'Квартира';
-      break;
-    case 'bungalo':
-      ad.querySelector('h4').textContent = 'Бунгало';
-      break;
-    case 'house':
-      ad.querySelector('h4').textContent = 'Дом';
-      break;
-    case 'palace':
-      ad.querySelector('h4').textContent = 'Дворец';
-      break;
-  }
+  var typeRus = arrayElement.offer.type;
+  ad.querySelector('h4').textContent = TYPES_RUS.typeRus;
   ad.querySelector('h4 + p').textContent = arrayElement.offer.rooms + ' для ' + arrayElement.offer.guests + ' гостей';
   ad.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + arrayElement.offer.checkin + ', выезд до ' + arrayElement.offer.checkout;
   clearNode(ad.querySelector('.popup__features'));
+  var feature = arrayElement.offer.features;
   for (var i = 0; i < arrayElement.offer.features.length; i++) {
-    var feature = arrayElement.offer.features[i];
     var featureElem = createElement('li', 'feature');
-    featureElem.classList.add('feature--' + feature);
+    featureElem.classList.add('feature--' + feature[i]);
     ad.querySelector('.popup__features').appendChild(featureElem);
   }
   ad.querySelector('.popup__features + p').textContent = arrayElement.offer.description;
