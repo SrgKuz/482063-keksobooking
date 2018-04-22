@@ -193,8 +193,8 @@ var createAd = function (arrayElement) {
   clearNode(ad.querySelector('.popup__features'));
   var feature = arrayElement.offer.features;
   for (var i = 0; i < arrayElement.offer.features.length; i++) {
-    var featureElem = createElement('li', 'feature');
-    featureElem.classList.add('feature--' + feature[i]);
+    var featureElem = createElement('li', 'popup__feature');
+    featureElem.classList.add('popup__feature--' + feature[i]);
     ad.querySelector('.popup__features').appendChild(featureElem);
   }
   ad.querySelector('.popup__features + p').textContent = arrayElement.offer.description;
