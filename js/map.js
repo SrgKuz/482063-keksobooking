@@ -187,8 +187,7 @@ var createAd = function (arrayElement) {
   ad.querySelector('h3').textContent = arrayElement.offer.title;
   ad.querySelector('.popup__text').textContent = arrayElement.offer.address;
   ad.querySelector('.popup__text--price').textContent = arrayElement.offer.price + ' \u20bd/ночь';
-  var typeRus = arrayElement.offer.type;
-  ad.querySelector('h4').textContent = TYPES_RUS.typeRus;
+  ad.querySelector('h4').textContent = TYPES_RUS[arrayElement.offer.type];
   ad.querySelector('h4 + p').textContent = arrayElement.offer.rooms + ' для ' + arrayElement.offer.guests + ' гостей';
   ad.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + arrayElement.offer.checkin + ', выезд до ' + arrayElement.offer.checkout;
   clearNode(ad.querySelector('.popup__features'));
