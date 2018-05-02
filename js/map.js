@@ -203,7 +203,7 @@ var createAd = function (arrayElement) {
 
   return ad;
 };
-
+/*
 var renderAds = function () {
   var adFragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
@@ -211,7 +211,7 @@ var renderAds = function () {
   }
   adsBlock.appendChild(adFragment);
 };
-
+*/
 // ****************************************************
 // обработчики событий
 // ****************************************************
@@ -222,12 +222,12 @@ var mapPinMain = document.querySelector('.map__pin--main');
 var setupForm = document.querySelector('.ad-form');
 var focusAddress = document.querySelector('input[name="address"]');
 var cardPopup = document.querySelector('.map__ads');
-// var mapCardPopup = document.querySelector('.map__ads>.map__card');
-var initialCoord = {
+// var mapCardPopup = document.querySelector('.map__ads>.map__card'); 
+/*var initialCoord = {
   X: ((COORD.X.max - COORD.X.min) / 2) + COORD.X.min - PIN_WIDTH / 2,
   Y: ((COORD.Y.max - COORD.Y.min) / 2) + COORD.Y.min - PIN_HEIGHT
 };
-
+*/
 var onCardCloseClick = function () {
   var mapCardPopup = document.querySelector('.map__ads>.map__card');
   mapCardPopup.classList.add('hidden');
@@ -240,15 +240,16 @@ var adShowPinData = function (evt) {
   // если значение клика на не нашем pine
   if (evt.target.parentNode.classList.contains('map__pin--main', 'map')) {
     focusAddress.setAttribute('value', evt.clientX + ',' + evt.clientY);
-	// если значение элемента массива map__pin равно true по индексу картинки
+  // если значение элемента массива map__pin равно true по индексу картинки
   } else if (evt.target.parentNode.classList.contains('map__pin')) {
-    // найти элемент массива по пину которого кликнули, передаем массив в метод поиска по элементу
-    var currentAd = ads.find ( function ( item ) { return evt.path[0].src.indexOf(item.author.avatar) >= 0 });
+  // найти элемент массива по пину которого кликнули, передаем массив в метод поиска по элементу
+  var currentAd = ads.find(function (item) {
+  return evt.path[0].src.indexOf(item.author.avatar) >= 0;
+  });
     // показать объявление на карточке
-    showCurrentAd( currentAd );
+    showCurrentAd(currentAd);
   } /*else if (evt.target.parentNode.classList.contains('map')) {
-    focusAddress.setAttribute('value', evt.clientX + ',' + evt.clientY);
-  }*/;
+    focusAddress.setAttribute('value', evt.clientX + ',' + evt.clientY); */
 };
 
 var renderAdCard = function (currentPinData) {
