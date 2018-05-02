@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 'use strict';
+=======
+﻿'use strict';
+>>>>>>> bfb6cf13725090da03e56f177b8a4a6659014d82
 
 // Стартовые
 var PRICE = {
@@ -76,9 +80,17 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
+<<<<<<< HEAD
 // ****************************************************
 // сервисные функции
 // ****************************************************
+=======
+// карту и блок объявления из неактивного состояния в активное
+var userUp = document.querySelector('.map');
+userUp.classList.remove('map--faded');
+var userSup = document.querySelector('.ad-form');
+userSup.classList.remove('ad-form--disabled');
+>>>>>>> bfb6cf13725090da03e56f177b8a4a6659014d82
 
 // функция случайного числа
 var getRandomInteger = function (min, max) {
@@ -107,11 +119,17 @@ var shuffleArray = function (array) {
   return array;
 };
 
+<<<<<<< HEAD
 // ****************************************************
 // генерация данных
 // ****************************************************
 
 var randomFeatures = shuffleArray(FEATURES);
+=======
+var randomFeatures = shuffleArray(FEATURES);
+var adFeatures = randomFeatures.slice(0, getRandomInteger(1, randomFeatures.length));
+
+>>>>>>> bfb6cf13725090da03e56f177b8a4a6659014d82
 var map = document.querySelector('.map');
 var adTemplate = document.querySelector('template').content.querySelector('article.map__card');
 var pinTemplate = document.querySelector('template').content.querySelector('button.map__pin');
@@ -149,7 +167,11 @@ var generateAdsObjects = function (adsCount) {
         'guests': getRandomInteger(GUEST.min, GUEST.max),
         'checkin': CHECKOUT_TIMES[getRandomInteger(0, CHECKOUT_TIMES.length - 1)],
         'checkout': CHECKOUT_TIMES[getRandomInteger(0, CHECKOUT_TIMES.length - 1)],
+<<<<<<< HEAD
         'features': randomFeatures.slice(0, getRandomInteger(1, randomFeatures.length)),
+=======
+        'features': adFeatures,
+>>>>>>> bfb6cf13725090da03e56f177b8a4a6659014d82
         'description': '',
         'photos': PHOTOS[getRandomInteger(0, PHOTOS.length - 1)]
       },
@@ -184,7 +206,10 @@ var renderPins = function () {
 // ф-ция набора объявления
 var createAd = function (arrayElement) {
   var ad = adTemplate.cloneNode(true);
+<<<<<<< HEAD
   //ad.querySelector('.popup__avatar').textContent = arrayElement.author.avatar;
+=======
+>>>>>>> bfb6cf13725090da03e56f177b8a4a6659014d82
   ad.querySelector('h3').textContent = arrayElement.offer.title;
   ad.querySelector('.popup__text').textContent = arrayElement.offer.address;
   ad.querySelector('.popup__text--price').textContent = arrayElement.offer.price + ' \u20bd/ночь';
@@ -201,7 +226,10 @@ var createAd = function (arrayElement) {
   ad.querySelector('.popup__features + p').textContent = arrayElement.offer.description;
   ad.querySelector('.popup__avatar').setAttribute('src', arrayElement.author.avatar);
   ad.querySelector('.popup__photo').setAttribute('src', arrayElement.offer.photos);
+<<<<<<< HEAD
 
+=======
+>>>>>>> bfb6cf13725090da03e56f177b8a4a6659014d82
   return ad;
 };
 
@@ -213,6 +241,7 @@ var renderAds = function () {
   adsBlock.appendChild(adFragment);
 };
 
+<<<<<<< HEAD
 // ****************************************************
 // обработчики событий
 // ****************************************************
@@ -312,3 +341,8 @@ mapPinMain.addEventListener('mouseup', onMapPinMainMouseUp); //setUpPin -> onMap
 
 // после отправки вернуть в начальное состояние
 resetButton.addEventListener('click', onResetButtonClick); // onResetButtonClick
+=======
+clearNode(pinsBlock);
+renderPins();
+renderAds();
+>>>>>>> bfb6cf13725090da03e56f177b8a4a6659014d82
