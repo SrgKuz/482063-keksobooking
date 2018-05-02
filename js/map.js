@@ -222,8 +222,8 @@ var mapPinMain = document.querySelector('.map__pin--main');
 var setupForm = document.querySelector('.ad-form');
 var focusAddress = document.querySelector('input[name="address"]');
 var cardPopup = document.querySelector('.map__ads');
-// var mapCardPopup = document.querySelector('.map__ads>.map__card'); 
-/*var initialCoord = {
+// var mapCardPopup = document.querySelector('.map__ads>.map__card');
+/* var initialCoord = {
   X: ((COORD.X.max - COORD.X.min) / 2) + COORD.X.min - PIN_WIDTH / 2,
   Y: ((COORD.Y.max - COORD.Y.min) / 2) + COORD.Y.min - PIN_HEIGHT
 };
@@ -243,35 +243,35 @@ var adShowPinData = function (evt) {
   // если значение элемента массива map__pin равно true по индексу картинки
   } else if (evt.target.parentNode.classList.contains('map__pin')) {
   // найти элемент массива по пину которого кликнули, передаем массив в метод поиска по элементу
-  var currentAd = ads.find(function (item) {
-  return evt.path[0].src.indexOf(item.author.avatar) >= 0;
-  });
+    var currentAd = ads.find(function (item) {
+    return evt.path[0].src.indexOf(item.author.avatar) >= 0;
+    });
     // показать объявление на карточке
     showCurrentAd(currentAd);
-  } /*else if (evt.target.parentNode.classList.contains('map')) {
+  } /* else if (evt.target.parentNode.classList.contains('map')) {
     focusAddress.setAttribute('value', evt.clientX + ',' + evt.clientY); */
 };
 
 var renderAdCard = function (currentPinData) {
- if (!map.parentNode.classList.contains('.map__card')) {
+  if (!map.parentNode.classList.contains('.map__card')) {
     var adFragment = document.createDocumentFragment();
     adFragment.appendChild(createAd(currentPinData));
     adsBlock.appendChild(adFragment);
- }
- else {
+  }
+  else {
     adFragment.replaceChild(createAd(currentPinData));
     adsBlock.replaceChild(adFragment);
- }
+  }
 };
 
 var showCurrentAd = function (currentPinData) {
-  if ( currentPinData == null ) return; {
+  if (currentPinData == null) return; {
     
-	renderAdCard(currentPinData);
-	var cardClose = cardPopup.querySelector('.popup__close');
+    renderAdCard(currentPinData);
+    var cardClose = cardPopup.querySelector('.popup__close');
     cardClose.addEventListener('click', onCardCloseClick);
   }
-  
+
 };
 
 var onResetButtonClick = function () {
@@ -281,7 +281,7 @@ var onResetButtonClick = function () {
   map.classList.add('map--faded');
   setupForm.classList.add('ad-form--disabled');
   setupForm.reset();
-  
+
   var mapPins = document.querySelectorAll('.map__pin');
   for (i = 0; i < mapPins.length; i++) {
     mapPins[i].style.display = 'none';
@@ -306,7 +306,7 @@ var onMapPinMainMouseUp = function () {
 // Неактивность в момент открытия
 onResetButtonClick();
 
-mapPinMain.addEventListener('mouseup', onMapPinMainMouseUp); //setUpPin -> onMapPinMainMouseUp
+mapPinMain.addEventListener('mouseup', onMapPinMainMouseUp);
 
 // после отправки вернуть в начальное состояние
-resetButton.addEventListener('click', onResetButtonClick); // onResetButtonClick
+resetButton.addEventListener('click', onResetButtonClick);
