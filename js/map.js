@@ -244,7 +244,7 @@ var adShowPinData = function (evt) {
   } else if (evt.target.parentNode.classList.contains('map__pin')) {
   // найти элемент массива по пину которого кликнули, передаем массив в метод поиска по элементу
     var currentAd = ads.find(function (item) {
-    return evt.path[0].src.indexOf(item.author.avatar) >= 0;
+      return evt.path[0].src.indexOf(item.author.avatar) >= 0;
     });
     // показать объявление на карточке
     showCurrentAd(currentAd);
@@ -257,21 +257,18 @@ var renderAdCard = function (currentPinData) {
     var adFragment = document.createDocumentFragment();
     adFragment.appendChild(createAd(currentPinData));
     adsBlock.appendChild(adFragment);
-  }
-  else {
+  } else {
     adFragment.replaceChild(createAd(currentPinData));
     adsBlock.replaceChild(adFragment);
   }
 };
 
 var showCurrentAd = function (currentPinData) {
-  if (currentPinData == null) return; {
-    
+  if (currentPinData !== null) {
     renderAdCard(currentPinData);
     var cardClose = cardPopup.querySelector('.popup__close');
     cardClose.addEventListener('click', onCardCloseClick);
   }
-
 };
 
 var onResetButtonClick = function () {
