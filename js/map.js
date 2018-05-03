@@ -1,6 +1,7 @@
-﻿'use strict';
+'use strict';
 
-// Стартовые
+var ESC_KEYCODE = 27;
+
 var PRICE = {
   max: 1000000,
   min: 1000
@@ -76,11 +77,9 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
-// карту и блок объявления из неактивного состояния в активное
-var userUp = document.querySelector('.map');
-userUp.classList.remove('map--faded');
-var userSup = document.querySelector('.ad-form');
-userSup.classList.remove('ad-form--disabled');
+// ****************************************************
+// сервисные функции
+// ****************************************************
 
 // функция случайного числа
 var getRandomInteger = function (min, max) {
@@ -109,9 +108,11 @@ var shuffleArray = function (array) {
   return array;
 };
 
-var randomFeatures = shuffleArray(FEATURES);
-var adFeatures = randomFeatures.slice(0, getRandomInteger(1, randomFeatures.length));
+// ****************************************************
+// генерация данных
+// ****************************************************
 
+var randomFeatures = shuffleArray(FEATURES);
 var map = document.querySelector('.map');
 var adTemplate = document.querySelector('template').content.querySelector('article.map__card');
 var pinTemplate = document.querySelector('template').content.querySelector('button.map__pin');
@@ -129,7 +130,7 @@ var adsBlock = createElement('div', 'map__ads');
 map.insertBefore(adsBlock, filtersBlock);
 
 var clearNode = function (node) {
-  node.innerHTML = '';
+  node.textContent = '';
 };
 
 var generateAdsObjects = function (adsCount) {
@@ -149,7 +150,7 @@ var generateAdsObjects = function (adsCount) {
         'guests': getRandomInteger(GUEST.min, GUEST.max),
         'checkin': CHECKOUT_TIMES[getRandomInteger(0, CHECKOUT_TIMES.length - 1)],
         'checkout': CHECKOUT_TIMES[getRandomInteger(0, CHECKOUT_TIMES.length - 1)],
-        'features': adFeatures,
+        'features': randomFeatures.slice(0, getRandomInteger(1, randomFeatures.length)),
         'description': '',
         'photos': PHOTOS[getRandomInteger(0, PHOTOS.length - 1)]
       },
@@ -200,17 +201,101 @@ var createAd = function (arrayElement) {
   ad.querySelector('.popup__features + p').textContent = arrayElement.offer.description;
   ad.querySelector('.popup__avatar').setAttribute('src', arrayElement.author.avatar);
   ad.querySelector('.popup__photo').setAttribute('src', arrayElement.offer.photos);
+
   return ad;
 };
 
-var renderAds = function () {
-  var adFragment = document.createDocumentFragment();
-  for (var i = 0; i < ads.length; i++) {
-    adFragment.appendChild(createAd(ads[i]));
-  }
-  adsBlock.appendChild(adFragment);
+// ****************************************************
+// обработчики событий
+// ****************************************************
+
+var resetButton = document.querySelector('.ad-form__reset');
+var fields = document.querySelector('fieldset');
+var mapPinMain = document.querySelector('.map__pin--main');
+var mapPins = document.querySelector('.map__pins');
+var setupForm = document.querySelector('.ad-form');
+var focusAddress = document.querySelector('input[name="address"]');
+var cardPopup = document.querySelector('.map__ads');
+
+var onCardCloseClick = function () {
+  var mapCardPopup = document.querySelector('.map__ads>.map__card');
+  mapCardPopup.classList.add('hidden');
+  mapCardPopup.remove();
+  mapPins.addEventListener('click', adShowPinData);
 };
 
-clearNode(pinsBlock);
-renderPins();
-renderAds();
+var onCardClouseEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    onCardCloseClick();
+  }
+};
+
+// функции для обработчиков
+var adShowPinData = function (evt) {
+  // если значение клика на не нашем pine
+  if (evt.target.parentNode.classList.contains('map__pin--main', 'map')) {
+    focusAddress.setAttribute('value', evt.clientX + ',' + evt.clientY);
+  // если значение элемента массива map__pin равно true по индексу картинки
+  } else if (evt.target.parentNode.classList.contains('map__pin')) {
+  // найти элемент массива по пину которого кликнули, передаем массив в метод поиска по элементу
+    var currentAd = ads.find(function (item) {
+      return evt.path[0].src.indexOf(item.author.avatar) >= 0;
+    });
+    // показать объявление на карточке
+    showCurrentAd(currentAd);
+	mapPins.removeEventListener('click', adShowPinData);
+	mapPins.addEventListener('keydown', onCardClouseEscPress);
+  } 
+};
+
+var renderAdCard = function (currentPinData) {
+  if (!map.parentNode.classList.contains('.map__card')) {
+    var adFragment = document.createDocumentFragment();
+    adFragment.appendChild(createAd(currentPinData));
+    adsBlock.appendChild(adFragment);
+  } else {
+    adFragment.replaceChild(createAd(currentPinData));
+    adsBlock.replaceChild(adFragment);
+  }
+};
+
+var showCurrentAd = function (currentPinData) {
+  if (currentPinData !== null) {
+    renderAdCard(currentPinData);
+    var cardClose = cardPopup.querySelector('.popup__close');
+    cardClose.addEventListener('click', onCardCloseClick);
+  }
+};
+
+var onResetButtonClick = function () {
+  for (var i = 0; i < fields.length; i++) {
+    fields[i].disabled = true;
+  }
+  map.classList.add('map--faded');
+  setupForm.classList.add('ad-form--disabled');
+  setupForm.reset();
+
+  var mapPins = document.querySelectorAll('.map__pin');
+  for (i = 0; i < mapPins.length; i++) {
+    mapPins[i].style.display = 'none';
+    if (mapPins[i].classList.contains('map__pin--main')) {
+      mapPins[i].style.display = 'block';
+    }
+  }
+};
+
+var onMapPinMainMouseUp = function () {
+  generateAdsObjects();
+  renderPins();
+  for (var i = 0; i < fields.length; i++) {
+    fields[i].disabled = false;
+  }
+  map.classList.remove('map--faded');
+  setupForm.classList.remove('ad-form--disabled');
+  mapPins.addEventListener('click', adShowPinData);
+};
+
+mapPinMain.addEventListener('mouseup', onMapPinMainMouseUp);
+
+// после отправки вернуть в начальное состояние
+resetButton.addEventListener('click', onResetButtonClick);
