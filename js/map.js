@@ -299,3 +299,38 @@ mapPinMain.addEventListener('mouseup', onMapPinMainMouseUp);
 
 // после отправки вернуть в начальное состояние
 resetButton.addEventListener('click', onResetButtonClick);
+
+// **********************************************
+// валидация формы объявления пользователя
+// **********************************************
+
+var verifyForm = document.querySelector('.ad-form__submit');
+var inputs = document.querySelectorAll('input');
+
+var veryfyFormValidity = function() {
+  for (var i = 0; i < inputs.length; i++) {
+    if (!inputs[i].validity.valid) {
+      inputs[i].style.border = '2px solid red';
+    } else {
+      inputs[i].style.border = '';
+	}
+  }
+};
+
+verifyForm.addEventListener('click', veryfyFormValidity);
+/*
+Нетривиальный сценарий валидации: установка соответствия количества гостей количеству комнат. Для решения задачи, при желании, вы можете доработать разметку проекта. При решении этой задачи можно пойти несколькими путями. В любом случае, нужно будет подписаться на изменения значения поля количества комнат.
+- Первый подход заключается в том, чтобы физически ограничить возможность выбора неправильных вариантов. Для этого вы можете или удалять соответствующие элементы option из разметки или добавлять им атрибут disabled. Помните, что при таком подходе возникает проблема в сценарии, когда у пользователя уже выбран вариант, который вы хотите исключить, так как произойдет неявное изменение значения, которое пользователь не заметит.
+Второй подход заключается в использовании встроенного API для валидации и вызова метода setCustomValidity когда выбранное значение количества гостей не подходит под количество комнат.
+*/
+// Сравнение кол-ва комнат гостей
+
+var roomsSelect = document.querySelector('#room_number');
+var guestsSelect = document.querySelector('#capacity');
+guestsSelect.value = 1;
+
+var compareRoomsGuests = function() {
+  guestsSelect.value = (roomsSelect.value !== '100') ? roomsSelect.value : 0;
+};
+
+roomsSelect.addEventListener('change', compareRoomsGuests);
