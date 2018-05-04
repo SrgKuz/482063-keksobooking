@@ -304,7 +304,7 @@ resetButton.addEventListener('click', onResetButtonClick);
 // валидация формы объявления пользователя
 // **********************************************
 
-var verifyForm = document.querySelector('.ad-form__submit');
+var submitForm = document.querySelector('.ad-form__submit');
 var inputs = document.querySelectorAll('input');
 
 var veryfyFormValidity = function() {
@@ -317,20 +317,36 @@ var veryfyFormValidity = function() {
   }
 };
 
-verifyForm.addEventListener('click', veryfyFormValidity);
-/*
-Нетривиальный сценарий валидации: установка соответствия количества гостей количеству комнат. Для решения задачи, при желании, вы можете доработать разметку проекта. При решении этой задачи можно пойти несколькими путями. В любом случае, нужно будет подписаться на изменения значения поля количества комнат.
-- Первый подход заключается в том, чтобы физически ограничить возможность выбора неправильных вариантов. Для этого вы можете или удалять соответствующие элементы option из разметки или добавлять им атрибут disabled. Помните, что при таком подходе возникает проблема в сценарии, когда у пользователя уже выбран вариант, который вы хотите исключить, так как произойдет неявное изменение значения, которое пользователь не заметит.
-Второй подход заключается в использовании встроенного API для валидации и вызова метода setCustomValidity когда выбранное значение количества гостей не подходит под количество комнат.
-*/
-// Сравнение кол-ва комнат гостей
+submitForm.addEventListener('click', veryfyFormValidity);
 
-var roomsSelect = document.querySelector('#room_number');
-var guestsSelect = document.querySelector('#capacity');
-guestsSelect.value = 1;
+// Сравнение кол-ва комнат-гостей
 
-var compareRoomsGuests = function() {
-  guestsSelect.value = (roomsSelect.value !== '100') ? roomsSelect.value : 0;
+var compareRoomsGuests = function(guestValue, roomValue) {
+  var guestsSelect = document.querySelector('#capacity');
+  if ((guestValue !== 1) && (roomValue !== 1)) {
+    guestsSelect.setCustomValidity('Для 1 гостя');
+  } else if ((guestValue === (3 || 1)) && (roomValue === 2)) {
+    guestsSelect.setCustomValidity('Для 2 гостей или 1 гостя');
+  } else if ((guestValue === 0) && (roomValue === 3)) {
+    guestsSelect.setCustomValidity('Для 3 или 2 гостей или для 1 гостя');
+  } else if ((guestValue !== 0) && (roomValue === 100)) {
+    guestsSelect.setCustomValidity('не для гостей');
+  } else {
+    guestsSelect.setCustomValidity('');
+  }
 };
 
-roomsSelect.addEventListener('change', compareRoomsGuests);
+var verifyRoomsGuests = function(evt) {
+  var guests = document.querySelector('#capacity');
+  var rooms = document.querySelector('#room_number');
+  switch (evt.target) {
+  case guests:
+    compareRoomsGuests(Number(evt.target.value), Number(rooms.value));
+    break;
+  case rooms:
+    compareRoomsGuests(Number(guests.value), Number(evt.target.value));
+    break;
+  };
+};
+
+document.addEventListener('change', verifyRoomsGuests);
