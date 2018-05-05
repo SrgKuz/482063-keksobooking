@@ -12,10 +12,10 @@ window.pin = (function () {
       var currentAd = window.global.ads.find(function (item) {
         return evt.path[0].src.indexOf(item.author.avatar) >= 0;
       });
-      // показать объявление на карточке
-      showCurrentAd(currentAd);
-	  window.global.pinsBlock.removeEventListener('click', adShowPinData);
-	  window.global.pinsBlock.addEventListener('keydown', onCardClouseEscPress);
-    } 
+    // показать объявление на карточке
+    showCurrentAd(currentAd);
+    window.global.pinsBlock.removeEventListener('click', adShowPinData);
+    window.global.pinsBlock.addEventListener('keydown', onCardClouseEscPress);
+    }
   };
 })();
