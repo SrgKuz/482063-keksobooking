@@ -241,11 +241,11 @@ var adShowPinData = function (evt) {
     var currentAd = ads.find(function (item) {
       return evt.path[0].src.indexOf(item.author.avatar) >= 0;
     });
-    // показать объявление на карточке
-    showCurrentAd(currentAd);
-	mapPins.removeEventListener('click', adShowPinData);
-	mapPins.addEventListener('keydown', onCardClouseEscPress);
-  } 
+  // показать объявление на карточке
+  showCurrentAd(currentAd);
+  mapPins.removeEventListener('click', adShowPinData);
+  mapPins.addEventListener('keydown', onCardClouseEscPress);
+  }
 };
 
 var renderAdCard = function (currentPinData) {
@@ -275,7 +275,7 @@ var onResetButtonClick = function () {
   setupForm.classList.add('ad-form--disabled');
   setupForm.reset();
 
-  var mapPins = document.querySelectorAll('.map__pin');
+  // var mapPins = document.querySelectorAll('.map__pin');
   for (i = 0; i < mapPins.length; i++) {
     mapPins[i].style.display = 'none';
     if (mapPins[i].classList.contains('map__pin--main')) {
@@ -307,13 +307,13 @@ resetButton.addEventListener('click', onResetButtonClick);
 var submitForm = document.querySelector('.ad-form__submit');
 var inputs = document.querySelectorAll('input');
 
-var veryfyFormValidity = function() {
+var veryfyFormValidity = function () {
   for (var i = 0; i < inputs.length; i++) {
     if (!inputs[i].validity.valid) {
       inputs[i].style.border = '2px solid red';
     } else {
       inputs[i].style.border = '';
-	}
+    }
   }
 };
 
@@ -326,7 +326,7 @@ submitForm.addEventListener('click', veryfyFormValidity);
 // Сравнение кол-ва комнат гостей
 
 
-var compareRoomsGuests = function(guestValue, roomValue) {
+var compareRoomsGuests = function (guestValue, roomValue) {
   var guestsSelect = document.querySelector('#capacity');
   if ((guestValue !== 1) && (roomValue !== 1)) {
     guestsSelect.setCustomValidity('Для 1 гостя');
@@ -341,16 +341,16 @@ var compareRoomsGuests = function(guestValue, roomValue) {
   }
 };
 
-var verifyRoomsGuests = function(evt) {
+var verifyRoomsGuests = function (evt) {
   var guests = document.querySelector('#capacity');
   var rooms = document.querySelector('#room_number');
   switch (evt.target) {
-  case guests:
-    compareRoomsGuests(Number(evt.target.value), Number(rooms.value));
-    break;
-  case rooms:
-    compareRoomsGuests(Number(guests.value), Number(evt.target.value));
-    break;
-  };
+    case guests:
+      compareRoomsGuests(Number(evt.target.value), Number(rooms.value));
+      break;
+    case rooms:
+      compareRoomsGuests(Number(guests.value), Number(evt.target.value));
+      break;
+  }
 };
 document.addEventListener('change', verifyRoomsGuests);
