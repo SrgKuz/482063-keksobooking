@@ -338,7 +338,7 @@ var submitForm = document.querySelector('.ad-form__submit');
 var inputs = document.querySelectorAll('input');
 
 var veryfyFormValidity = function () {
-  inputs.forEach( function (i) {
+  inputs.forEach ( function (i) {
     if (!inputs[i].validity.valid) {
       inputs[i].style.border = '2px solid red';
     } else {
