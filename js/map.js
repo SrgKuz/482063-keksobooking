@@ -333,8 +333,6 @@ var compareRoomsGuests = function(guestValue, roomValue) {
     guestsSelect.setCustomValidity('не для гостей');
   } else {
     guestsSelect.setCustomValidity('');
-  }
-};
 
 var verifyRoomsGuests = function(evt) {
   var guests = document.querySelector('#capacity');
@@ -350,3 +348,4 @@ var verifyRoomsGuests = function(evt) {
 };
 
 document.addEventListener('change', verifyRoomsGuests);
+
