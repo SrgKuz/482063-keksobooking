@@ -294,7 +294,7 @@ var onMapPinMainMouseUp = function (evt) {
   map.classList.remove('map--faded');
   setupForm.classList.remove('ad-form--disabled');
   mapPins.addEventListener('click', adShowPinData);
-  mapPinMain.removeEventListener('mouseup');
+  mapPinMain.removeEventListener('mouseup', adShowPinData);
 };
 
 mapPinMain.addEventListener('mouseup', onMapPinMainMouseUp);
@@ -340,13 +340,13 @@ var submitForm = document.querySelector('.ad-form__submit');
 var inputs = document.querySelectorAll('input');
 
 var veryfyFormValidity = function () {
-  for (var i = 0; i < inputs.length; i++) {
+  inputs.forEach(function (i) {
     if (!inputs[i].validity.valid) {
       inputs[i].style.border = '2px solid red';
     } else {
       inputs[i].style.border = '';
     }
-  }
+  });
 };
 
 submitForm.addEventListener('click', veryfyFormValidity);
@@ -362,7 +362,7 @@ var compareRoomsGuests = function (guestValue, roomValue) {
   var guestsSelect = document.querySelector('#capacity');
   if ((guestValue !== 1) && (roomValue !== 1)) {
     guestsSelect.setCustomValidity('Для 1 гостя');
-  } else if ((guestValue === (3 || 1)) && (roomValue === 2)) {
+  } else if (((guestValue === 3) || (guestValue === 1)) && (roomValue === 2)) {
     guestsSelect.setCustomValidity('Для 2 гостей или 1 гостя');
   } else if ((guestValue === 0) && (roomValue === 3)) {
     guestsSelect.setCustomValidity('Для 3 или 2 гостей или для 1 гостя');
