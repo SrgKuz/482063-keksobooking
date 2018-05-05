@@ -241,10 +241,10 @@ var adShowPinData = function (evt) {
     var currentAd = ads.find(function (item) {
       return evt.path[0].src.indexOf(item.author.avatar) >= 0;
     });
-  // показать объявление на карточке
-  showCurrentAd(currentAd);
-  mapPins.removeEventListener('click', adShowPinData);
-  mapPins.addEventListener('keydown', onCardClouseEscPress);
+    // показать объявление на карточке
+    showCurrentAd(currentAd);
+    mapPins.removeEventListener('click', adShowPinData);
+    mapPins.addEventListener('keydown', onCardClouseEscPress);
   }
 };
 
