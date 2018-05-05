@@ -308,13 +308,21 @@ var submitForm = document.querySelector('.ad-form__submit');
 var inputs = document.querySelectorAll('input');
 
 var veryfyFormValidity = function () {
+  inputs.forEach( function (i) {
+    if (!inputs[i].validity.valid) {
+      inputs[i].style.border = '2px solid red';
+    } else {
+      inputs[i].style.border = '';
+    }
+  });
+  /*
   for (var i = 0; i < inputs.length; i++) {
     if (!inputs[i].validity.valid) {
       inputs[i].style.border = '2px solid red';
     } else {
       inputs[i].style.border = '';
     }
-  }
+  } */
 };
 
 submitForm.addEventListener('click', veryfyFormValidity);
