@@ -305,6 +305,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
   };
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
+	mapPinMain.style.zIndex = 1000;
     var shift = {
       x: startCoords.x - moveEvt.clientX,
       y: startCoords.y - moveEvt.clientY
@@ -315,11 +316,16 @@ mapPinMain.addEventListener('mousedown', function (evt) {
     };
     mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
     mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
-    if ((mapPinMain.offsetTop - shift.y) > 0 && (mapPinMain.offsetTop - shift.y) < (map.offsetHeight - PIN_HEIGHT) && (mapPinMain.offsetLeft - shift.x) > 0 && (mapPinMain.offsetLeft - shift.x) < (map.offsetWidth - PIN_WIDTH / 2)) {
+    if ((mapPinMain.offsetTop - shift.y) > 0 && (mapPinMain.offsetTop - shift.y) < (map.offsetHeight - PIN_HEIGHT) && (mapPinMain.offsetLeft - shift.x) > 0 && (mapPinMain.offsetLeft - shift.x) < (map.offsetWidth - PIN_WIDTH)) {
       focusAddress.value = mapPinMain.style.left + ', ' + mapPinMain.style.top;
     } else {
-      document.removeEventListener('mousemove', onMouseMove);
-    }
+      var stopCoord = {
+        x: mapPinMain.offsetLeft,
+        y: mapPinMain.offsetTop
+      };
+      mapPinMain.style.top = stopCoord.y + 'px';
+      mapPinMain.style.left = stopCoord.x + 'px';
+    };
   };
   var onMauseUp = function (upEvt) {
     upEvt.preventDefault();
