@@ -318,8 +318,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
     if ((mapPinMain.offsetTop - shift.y) > 0 && (mapPinMain.offsetTop - shift.y) < (map.offsetHeight - PIN_HEIGHT) && (mapPinMain.offsetLeft - shift.x) > 0 && (mapPinMain.offsetLeft - shift.x) < (map.offsetWidth - PIN_WIDTH / 2)) {
       focusAddress.value = mapPinMain.style.left + ', ' + mapPinMain.style.top;
     } else {
-      mapPinMain.style.top = (map.offsetHeight / 2) + 'px';
-      mapPinMain.style.left = (map.offsetWidth / 2) + 'px';
+      document.removeEventListener('mousemove', onMouseMove);
     }
   };
   var onMauseUp = function (upEvt) {
