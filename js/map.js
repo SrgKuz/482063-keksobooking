@@ -57,8 +57,8 @@ var FEATURES = [
   'conditioner'
 ];
 
-var PIN_HEIGHT = 40;
-var PIN_WIDTH = 44;
+var PIN_HEIGHT = 70;
+var PIN_WIDTH = 50;
 
 var COORD = {
   X: {
@@ -274,8 +274,7 @@ var onResetButtonClick = function () {
   map.classList.add('map--faded');
   setupForm.classList.add('ad-form--disabled');
   setupForm.reset();
-
-  // var mapPins = document.querySelectorAll('.map__pin');
+  var mapPins = document.querySelectorAll('.map__pin');
   for (i = 0; i < mapPins.length; i++) {
     mapPins[i].style.display = 'none';
     if (mapPins[i].classList.contains('map__pin--main')) {
@@ -300,12 +299,10 @@ var onMapPinMainMouseUp = function (evt) {
 mapPinMain.addEventListener('mouseup', onMapPinMainMouseUp);
 mapPinMain.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
-
   var startCoords = {
     x: evt.clientX,
     y: evt.clientY
   };
-
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
     var shift = {
@@ -316,10 +313,15 @@ mapPinMain.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
-    mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+	mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
     mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+    if ((mapPinMain.offsetTop - shift.y) > 0 && (mapPinMain.offsetTop - shift.y) < (map.offsetHeight - PIN_HEIGHT) && (mapPinMain.offsetLeft - shift.x) > 0 && (mapPinMain.offsetLeft - shift.x) < (map.offsetWidth - PIN_WIDTH / 2)) {
+      focusAddress.value = mapPinMain.style.left + ', ' + mapPinMain.style.top;
+    } else {
+      mapPinMain.style.top = (map.offsetHeight / 2) + 'px';
+	  mapPinMain.style.left = (map.offsetWidth / 2) + 'px';
+    }; 
   };
-
   var onMauseUp = function (upEvt) {
     upEvt.preventDefault();
     document.removeEventListener('mousemove', onMouseMove);
@@ -329,6 +331,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMauseUp);
 });
+
 // после отправки вернуть в начальное состояние
 resetButton.addEventListener('click', onResetButtonClick);
 
@@ -340,6 +343,7 @@ var submitForm = document.querySelector('.ad-form__submit');
 var inputs = document.querySelectorAll('input');
 
 var veryfyFormValidity = function () {
+  evt.preventDefault();
   inputs.forEach(function (i) {
     if (!inputs[i].validity.valid) {
       inputs[i].style.border = '2px solid red';
@@ -350,17 +354,12 @@ var veryfyFormValidity = function () {
 };
 
 submitForm.addEventListener('click', veryfyFormValidity);
-/*
-Нетривиальный сценарий валидации: установка соответствия количества гостей количеству комнат. Для решения задачи, при желании, вы можете доработать разметку проекта. При решении этой задачи можно пойти несколькими путями. В любом случае, нужно будет подписаться на изменения значения поля количества комнат.
-- Первый подход заключается в том, чтобы физически ограничить возможность выбора неправильных вариантов. Для этого вы можете или удалять соответствующие элементы option из разметки или добавлять им атрибут disabled. Помните, что при таком подходе возникает проблема в сценарии, когда у пользователя уже выбран вариант, который вы хотите исключить, так как произойдет неявное изменение значения, которое пользователь не заметит.
-Второй подход заключается в использовании встроенного API для валидации и вызова метода setCustomValidity когда выбранное значение количества гостей не подходит под количество комнат.
-*/
-// Сравнение кол-ва комнат гостей
 
+// Сравнение кол-ва комнат гостей
 
 var compareRoomsGuests = function (guestValue, roomValue) {
   var guestsSelect = document.querySelector('#capacity');
-  if ((guestValue !== 1) && (roomValue !== 1)) {
+  if ((guestValue !== 1) && (roomValue == 1)) {
     guestsSelect.setCustomValidity('Для 1 гостя');
   } else if (((guestValue === 3) || (guestValue === 1)) && (roomValue === 2)) {
     guestsSelect.setCustomValidity('Для 2 гостей или 1 гостя');
