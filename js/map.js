@@ -305,7 +305,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
   };
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
-	mapPinMain.style.zIndex = 1000;
+    mapPinMain.style.zIndex = 1000;
     var shift = {
       x: startCoords.x - moveEvt.clientX,
       y: startCoords.y - moveEvt.clientY
@@ -325,7 +325,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
       };
       mapPinMain.style.top = stopCoord.y + 'px';
       mapPinMain.style.left = stopCoord.x + 'px';
-    };
+    }
   };
   var onMauseUp = function (upEvt) {
     upEvt.preventDefault();
