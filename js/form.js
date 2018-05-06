@@ -12,6 +12,8 @@
     });
   };
 
+  window.data.submitForm.addEventListener('click', veryfyFormValidity);
+
 // Сравнение кол-ва комнат гостей
   var compareRoomsGuests = function (guestValue, roomValue) {
     var guestsSelect = document.querySelector('#capacity');
@@ -41,11 +43,11 @@
     }
   };
 
+  document.addEventListener('change', verifyRoomsGuests);
+
   window.data = {
     'veryfyFormValidity': veryfyFormValidity(),
-    'submitForm': window.data.submitForm.addEventListener('click', veryfyFormValidity),
     'compareRoomsGuests': compareRoomsGuests(),
-    'verifyRoomsGuests': verifyRoomsGuests(),
-    document.addEventListener('change', verifyRoomsGuests)
+    'verifyRoomsGuests': verifyRoomsGuests()
   };
 })();
