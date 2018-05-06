@@ -274,11 +274,11 @@ var onResetButtonClick = function () {
   map.classList.add('map--faded');
   setupForm.classList.add('ad-form--disabled');
   setupForm.reset();
-  var mapPins = document.querySelectorAll('.map__pin');
+  var mapPin = document.querySelectorAll('.map__pin');
   for (i = 0; i < mapPins.length; i++) {
-    mapPins[i].style.display = 'none';
-    if (mapPins[i].classList.contains('map__pin--main')) {
-      mapPins[i].style.display = 'block';
+    mapPin[i].style.display = 'none';
+    if (mapPin[i].classList.contains('map__pin--main')) {
+      mapPin[i].style.display = 'block';
     }
   }
 };
@@ -313,14 +313,14 @@ mapPinMain.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
-	mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+    mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
     mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
     if ((mapPinMain.offsetTop - shift.y) > 0 && (mapPinMain.offsetTop - shift.y) < (map.offsetHeight - PIN_HEIGHT) && (mapPinMain.offsetLeft - shift.x) > 0 && (mapPinMain.offsetLeft - shift.x) < (map.offsetWidth - PIN_WIDTH / 2)) {
       focusAddress.value = mapPinMain.style.left + ', ' + mapPinMain.style.top;
     } else {
       mapPinMain.style.top = (map.offsetHeight / 2) + 'px';
-	  mapPinMain.style.left = (map.offsetWidth / 2) + 'px';
-    }; 
+      mapPinMain.style.left = (map.offsetWidth / 2) + 'px';
+    }
   };
   var onMauseUp = function (upEvt) {
     upEvt.preventDefault();
@@ -343,7 +343,6 @@ var submitForm = document.querySelector('.ad-form__submit');
 var inputs = document.querySelectorAll('input');
 
 var veryfyFormValidity = function () {
-  evt.preventDefault();
   inputs.forEach(function (i) {
     if (!inputs[i].validity.valid) {
       inputs[i].style.border = '2px solid red';
@@ -359,7 +358,7 @@ submitForm.addEventListener('click', veryfyFormValidity);
 
 var compareRoomsGuests = function (guestValue, roomValue) {
   var guestsSelect = document.querySelector('#capacity');
-  if ((guestValue !== 1) && (roomValue == 1)) {
+  if ((guestValue !== 1) && (roomValue === 1)) {
     guestsSelect.setCustomValidity('Для 1 гостя');
   } else if (((guestValue === 3) || (guestValue === 1)) && (roomValue === 2)) {
     guestsSelect.setCustomValidity('Для 2 гостей или 1 гостя');
