@@ -2,7 +2,6 @@
 
 (function () {
 window.data = {
-return {
   ESC_KEYCODE: 27,
   PRICE: {max: 1000000, min: 1000},
   GUEST: {min: 1, max: 10},
@@ -29,7 +28,6 @@ return {
   cardPopup: document.querySelector('.map__ads'),
   submitForm: document.querySelector('.ad-form__submit'),
   inputs: document.querySelectorAll('input')
-  }; 
 };
 
 })();
